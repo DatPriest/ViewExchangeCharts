@@ -1,0 +1,42 @@
+﻿@page "/share"
+@using Newtonsoft.Json.Linq
+@using ViewExchangeCharts.Data
+
+@inject ShareService shareService
+<PageTitle>Shares</PageTitle>
+
+
+
+@if (shareObject == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Close</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var data in shareObject)
+            {
+                <tr>
+                    <td>@data.Date</td>
+                    <td>@data.Close</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<TimeSeriesData>? shareObject;
+
+    protected override async Task OnInitializedAsync()
+    {
+        shareObject = shareService.GetShare();
+    }
+}
